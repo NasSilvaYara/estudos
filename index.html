@@ -143,150 +143,208 @@
             </div>
         </div>
 
-        <!-- MENU DE ABAS DO PORTAL -->
-        <div class="border-b border-teal-900/60 flex gap-4">
-            <button onclick="switchView('disciplines')" id="btn-tab-disciplines" class="pb-3 text-sm font-semibold border-b-2 border-teal-400 text-teal-300 transition-all flex items-center gap-2">
-                <i data-lucide="compass" class="w-4 h-4"></i>
-                Grade & Disciplinas
-            </button>
-            <button onclick="switchView('calendar-view')" id="btn-tab-calendar" class="pb-3 text-sm font-medium border-b-2 border-transparent text-teal-500 hover:text-teal-200 transition-all flex items-center gap-2">
-                <i data-lucide="calendar" class="w-4 h-4"></i>
-                Calendário de Eventos
-            </button>
-            <button onclick="switchView('performance')" id="btn-tab-performance" class="pb-3 text-sm font-medium border-b-2 border-transparent text-teal-500 hover:text-teal-200 transition-all flex items-center gap-2">
-                <i data-lucide="trophy" class="w-4 h-4"></i>
-                Quadro de Desempenho
-            </button>
-        </div>
-
-        <!-- ABA 1: GRADE DE MATÉRIAS (CRONOGRAMA DE AULAS) -->
-        <div id="view-disciplines" class="space-y-4">
-            <div class="flex items-center justify-between">
-                <h3 class="text-sm font-semibold text-teal-300 uppercase tracking-widest flex items-center gap-2">
-                    <i data-lucide="book-open" class="text-pink-400 w-4 h-4"></i>
-                    Mapa de Aulas Semanal
-                </h3>
-                <span class="text-xs text-teal-500">Selecione uma disciplina para visualizar os tópicos e materiais</span>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4" id="timetable-grid">
-                <!-- Alimentado via JavaScript -->
-            </div>
-        </div>
-
-        <!-- ABA 2: CALENDÁRIO INTERATIVO -->
-        <div id="view-calendar-view" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Calendário Principal -->
-            <div class="lg:col-span-2 water-card rounded-3xl p-5 flex flex-col gap-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <button onclick="prevMonth()" class="p-2 bg-slate-950/60 hover:bg-slate-900/60 border border-teal-900 rounded-xl text-teal-300 transition-colors">
-                            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                        </button>
-                        <h3 id="calendar-month-year" class="text-base font-bold text-teal-200 capitalize">Janeiro 2026</h3>
-                        <button onclick="nextMonth()" class="p-2 bg-slate-950/60 hover:bg-slate-900/60 border border-teal-900 rounded-xl text-teal-300 transition-colors">
-                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                    <button onclick="openAddEventModal()" class="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-slate-950 text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-lg shadow-teal-400/20">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
-                        Adicionar Evento
+        <!-- LAYOUT DIVIDIDO EM GRID (PRINCIPAL + SIDEBAR POMODORO) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            
+            <!-- COLUNA DA ESQUERDA (TABS E CONTEÚDOS PRINCIPAIS) -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- MENU DE ABAS DO PORTAL -->
+                <div class="border-b border-teal-900/60 flex gap-4">
+                    <button onclick="switchView('disciplines')" id="btn-tab-disciplines" class="pb-3 text-sm font-semibold border-b-2 border-teal-400 text-teal-300 transition-all flex items-center gap-2">
+                        <i data-lucide="compass" class="w-4 h-4"></i>
+                        Grade & Disciplinas
+                    </button>
+                    <button onclick="switchView('calendar-view')" id="btn-tab-calendar" class="pb-3 text-sm font-medium border-b-2 border-transparent text-teal-500 hover:text-teal-200 transition-all flex items-center gap-2">
+                        <i data-lucide="calendar" class="w-4 h-4"></i>
+                        Calendário de Eventos
+                    </button>
+                    <button onclick="switchView('performance')" id="btn-tab-performance" class="pb-3 text-sm font-medium border-b-2 border-transparent text-teal-500 hover:text-teal-200 transition-all flex items-center gap-2">
+                        <i data-lucide="trophy" class="w-4 h-4"></i>
+                        Quadro de Desempenho
                     </button>
                 </div>
 
-                <!-- Dias da Semana Header -->
-                <div class="grid grid-cols-7 text-center text-xs font-bold text-teal-400 uppercase py-2 border-b border-teal-900/50">
-                    <div>Dom</div>
-                    <div>Seg</div>
-                    <div>Ter</div>
-                    <div>Qua</div>
-                    <div>Qui</div>
-                    <div>Sex</div>
-                    <div>Sáb</div>
+                <!-- ABA 1: GRADE DE MATÉRIAS (CRONOGRAMA DE AULAS) -->
+                <div id="view-disciplines" class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-semibold text-teal-300 uppercase tracking-widest flex items-center gap-2">
+                            <i data-lucide="book-open" class="text-pink-400 w-4 h-4"></i>
+                            Mapa de Aulas Semanal
+                        </h3>
+                        <span class="text-xs text-teal-500">Selecione uma disciplina para visualizar os tópicos e materiais</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4" id="timetable-grid">
+                        <!-- Alimentado via JavaScript -->
+                    </div>
                 </div>
 
-                <!-- Grid de Dias do Mês -->
-                <div class="grid grid-cols-7 gap-1.5" id="calendar-days-grid">
-                    <!-- Gerado via JavaScript -->
+                <!-- ABA 2: CALENDÁRIO INTERATIVO -->
+                <div id="view-calendar-view" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Calendário Principal -->
+                    <div class="lg:col-span-2 water-card rounded-3xl p-5 flex flex-col gap-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <button onclick="prevMonth()" class="p-2 bg-slate-950/60 hover:bg-slate-900/60 border border-teal-900 rounded-xl text-teal-300 transition-colors">
+                                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                                </button>
+                                <h3 id="calendar-month-year" class="text-base font-bold text-teal-200 capitalize">Janeiro 2026</h3>
+                                <button onclick="nextMonth()" class="p-2 bg-slate-950/60 hover:bg-slate-900/60 border border-teal-900 rounded-xl text-teal-300 transition-colors">
+                                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                            <button onclick="openAddEventModal()" class="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-slate-950 text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-lg shadow-teal-400/20">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                Adicionar Evento
+                            </button>
+                        </div>
+
+                        <!-- Dias da Semana Header -->
+                        <div class="grid grid-cols-7 text-center text-xs font-bold text-teal-400 uppercase py-2 border-b border-teal-900/50">
+                            <div>Dom</div>
+                            <div>Seg</div>
+                            <div>Ter</div>
+                            <div>Qua</div>
+                            <div>Qui</div>
+                            <div>Sex</div>
+                            <div>Sáb</div>
+                        </div>
+
+                        <!-- Grid de Dias do Mês -->
+                        <div class="grid grid-cols-7 gap-1.5" id="calendar-days-grid">
+                            <!-- Gerado via JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Agenda Lateral -->
+                    <div class="water-card rounded-3xl p-5 flex flex-col gap-4">
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-teal-200 flex items-center gap-2">
+                                <i data-lucide="scroll" class="w-4 h-4 text-pink-400"></i>
+                                Lista de Eventos
+                            </h4>
+                            <p class="text-xs text-teal-400/80">Cronograma de prazos e atividades.</p>
+                        </div>
+
+                        <div class="flex-1 overflow-y-auto max-h-[400px] space-y-3 pr-1" id="agenda-list">
+                            <!-- Lista de atividades filtradas do mês -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABA 3: QUADRO DE DESEMPENHO -->
+                <div id="view-performance" class="hidden space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Média Geral de Notas -->
+                        <div class="water-card rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3">
+                            <div class="p-3 bg-pink-500/10 rounded-full text-pink-400 border border-pink-500/20">
+                                <i data-lucide="award" class="w-8 h-8 text-pink-400"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-xs text-teal-400 font-medium">Média Geral de Notas</span>
+                                <h3 id="overall-grade-avg" class="text-3xl font-extrabold text-teal-100">-</h3>
+                            </div>
+                            <p class="text-[11px] text-teal-500">Média de todas as notas que você conquistou.</p>
+                        </div>
+
+                        <!-- Tópicos Concluídos -->
+                        <div class="water-card rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3">
+                            <div class="p-3 bg-teal-500/10 rounded-full text-teal-300 border border-teal-500/20">
+                                <i data-lucide="check-circle" class="w-8 h-8 text-teal-300"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-xs text-teal-400 font-medium">Tópicos Concluídos</span>
+                                <h3 id="overall-topics-completed" class="text-3xl font-extrabold text-teal-100">0/0</h3>
+                            </div>
+                            <p class="text-[11px] text-teal-400 font-medium" id="overall-topics-percentage">0% dominado</p>
+                        </div>
+
+                        <!-- Eventos Concluídos -->
+                        <div class="water-card rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3">
+                            <div class="p-3 bg-cyan-500/10 rounded-full text-cyan-300 border border-cyan-500/20">
+                                <i data-lucide="target" class="w-8 h-8 text-cyan-300"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <span class="text-xs text-teal-400 font-medium">Eventos Concluídos</span>
+                                <h3 id="overall-events-completed" class="text-3xl font-extrabold text-teal-100">0/0</h3>
+                            </div>
+                            <p class="text-[11px] text-cyan-400 font-medium" id="overall-events-percentage">Sem eventos registrados</p>
+                        </div>
+                    </div>
+
+                    <!-- Tabela de Rendimento das Disciplinas -->
+                    <div class="water-card rounded-3xl p-5 space-y-4">
+                        <h4 class="font-bold text-teal-200 flex items-center gap-2">
+                            <i data-lucide="grid" class="w-4 h-4 text-pink-400"></i>
+                            Rendimento das Disciplinas
+                        </h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="border-b border-teal-900 text-teal-400 font-bold uppercase tracking-wider">
+                                        <th class="py-3 px-4">Disciplina</th>
+                                        <th class="py-3 px-4">Nota P1</th>
+                                        <th class="py-3 px-4">Nota P2</th>
+                                        <th class="py-3 px-4">Média Geral</th>
+                                        <th class="py-3 px-4">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="performance-table-body" class="divide-y divide-teal-900/40 text-teal-100">
+                                    <!-- Inserido dinamicamente via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Agenda Lateral (Tarefas Registradas) -->
-            <div class="water-card rounded-3xl p-5 flex flex-col gap-4">
-                <div class="space-y-1">
-                    <h4 class="font-bold text-teal-200 flex items-center gap-2">
-                        <i data-lucide="scroll" class="w-4 h-4 text-pink-400"></i>
-                        Lista de Eventos
-                    </h4>
-                    <p class="text-xs text-teal-400/80">Cronograma de prazos e atividades.</p>
-                </div>
+            <!-- COLUNA DA DIREITA (SIDEBAR COM POMODORO BIOLUMINESCENTE) -->
+            <div class="space-y-6">
+                <div class="water-card rounded-3xl p-6 flex flex-col gap-6 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                    
+                    <div class="flex items-center justify-between border-b border-teal-900/40 pb-3">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="timer" class="text-teal-300 w-5 h-5 animate-pulse"></i>
+                            <h4 class="font-bold text-teal-100">Pomodoro de Estudos</h4>
+                        </div>
+                        <span id="pomodoro-mode-badge" class="text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30">Foco</span>
+                    </div>
 
-                <div class="flex-1 overflow-y-auto max-h-[400px] space-y-3 pr-1" id="agenda-list">
-                    <!-- Lista de atividades filtradas do mês -->
-                </div>
-            </div>
-        </div>
+                    <!-- Display de Tempo Bioluminescente -->
+                    <div class="flex flex-col items-center justify-center py-6">
+                        <div class="relative flex items-center justify-center">
+                            <!-- Efeito de anel de carregamento em SVG -->
+                            <svg class="w-44 h-44 transform -rotate-90">
+                                <circle cx="88" cy="88" r="80" class="stroke-teal-950" stroke-width="4" fill="transparent" />
+                                <circle id="pomodoro-progress-circle" cx="88" cy="88" r="80" class="stroke-teal-400 transition-all duration-300" stroke-width="6" fill="transparent" stroke-dasharray="502.4" stroke-dashoffset="0" stroke-linecap="round" />
+                            </svg>
+                            <!-- Texto do Tempo Interno -->
+                            <div class="absolute text-center">
+                                <span id="pomodoro-time" class="text-4xl font-extrabold text-teal-100 font-mono tracking-tight drop-shadow-[0_0_8px_rgba(45,212,191,0.6)]">25:00</span>
+                                <p class="text-[9px] text-teal-400/80 uppercase tracking-widest mt-1">Tempo de Foco</p>
+                            </div>
+                        </div>
+                    </div>
 
-        <!-- ABA 3: QUADRO DE DESEMPENHO (Métricas Gerais de Notas) -->
-        <div id="view-performance" class="hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Média Geral de Notas -->
-                <div class="water-card rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3">
-                    <div class="p-3 bg-pink-500/10 rounded-full text-pink-400 border border-pink-500/20">
-                        <i data-lucide="award" class="w-8 h-8 text-pink-400"></i>
+                    <!-- Controles -->
+                    <div class="flex items-center justify-center gap-3">
+                        <button onclick="togglePomodoro()" id="pomodoro-play-btn" class="flex-1 py-3 px-4 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-slate-950 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-teal-500/20">
+                            <i data-lucide="play" class="w-4 h-4"></i> Iniciar
+                        </button>
+                        <button onclick="resetPomodoro()" class="p-3 bg-slate-900 border border-teal-900 rounded-xl text-teal-300 hover:bg-slate-900/60 transition-colors">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        </button>
                     </div>
-                    <div class="space-y-1">
-                        <span class="text-xs text-teal-400 font-medium">Média Geral de Notas</span>
-                        <h3 id="overall-grade-avg" class="text-3xl font-extrabold text-teal-100">-</h3>
-                    </div>
-                    <p class="text-[11px] text-teal-500">Média de todas as notas que você conquistou.</p>
-                </div>
 
-                <!-- Tópicos Concluídos -->
-                <div class="water-card rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3">
-                    <div class="p-3 bg-teal-500/10 rounded-full text-teal-300 border border-teal-500/20">
-                        <i data-lucide="check-circle" class="w-8 h-8 text-teal-300"></i>
+                    <!-- Atalhos rápidos de Modo -->
+                    <div class="grid grid-cols-2 gap-2 text-center text-xs pt-2">
+                        <button onclick="switchPomodoroMode('focus')" id="pomodoro-mode-focus" class="py-1.5 rounded-lg border border-teal-500 bg-teal-500/10 text-teal-300 font-semibold transition-colors">
+                            Estudo (25m)
+                        </button>
+                        <button onclick="switchPomodoroMode('break')" id="pomodoro-mode-break" class="py-1.5 rounded-lg border border-transparent hover:border-teal-900 text-teal-500 transition-colors">
+                            Descanso (5m)
+                        </button>
                     </div>
-                    <div class="space-y-1">
-                        <span class="text-xs text-teal-400 font-medium">Tópicos Concluídos</span>
-                        <h3 id="overall-topics-completed" class="text-3xl font-extrabold text-teal-100">0/0</h3>
-                    </div>
-                    <p class="text-[11px] text-teal-400 font-medium" id="overall-topics-percentage">0% dominado</p>
-                </div>
-
-                <!-- Eventos Concluídos -->
-                <div class="water-card rounded-3xl p-6 flex flex-col items-center justify-center text-center gap-3">
-                    <div class="p-3 bg-cyan-500/10 rounded-full text-cyan-300 border border-cyan-500/20">
-                        <i data-lucide="target" class="w-8 h-8 text-cyan-300"></i>
-                    </div>
-                    <div class="space-y-1">
-                        <span class="text-xs text-teal-400 font-medium">Eventos Concluídos</span>
-                        <h3 id="overall-events-completed" class="text-3xl font-extrabold text-teal-100">0/0</h3>
-                    </div>
-                    <p class="text-[11px] text-cyan-400 font-medium" id="overall-events-percentage">Sem eventos registrados</p>
-                </div>
-            </div>
-
-            <!-- Tabela de Rendimento das Disciplinas -->
-            <div class="water-card rounded-3xl p-5 space-y-4">
-                <h4 class="font-bold text-teal-200 flex items-center gap-2">
-                    <i data-lucide="grid" class="w-4 h-4 text-pink-400"></i>
-                    Rendimento das Disciplinas
-                </h4>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-xs">
-                        <thead>
-                            <tr class="border-b border-teal-900 text-teal-400 font-bold uppercase tracking-wider">
-                                <th class="py-3 px-4">Disciplina</th>
-                                <th class="py-3 px-4">Nota P1</th>
-                                <th class="py-3 px-4">Nota P2</th>
-                                <th class="py-3 px-4">Média Geral</th>
-                                <th class="py-3 px-4">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="performance-table-body" class="divide-y divide-teal-900/40 text-teal-100">
-                            <!-- Inserido dinamicamente via JS -->
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -309,8 +367,8 @@
                     </button>
                 </div>
 
-                <!-- Abas internas -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-teal-900/40">
+                <!-- Abas internas divididas em 4 Colunas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-teal-900/40">
                     
                     <!-- COLUNA 1: EMENTA & TÓPICOS -->
                     <div class="p-6 space-y-6">
@@ -320,13 +378,13 @@
                                     <i data-lucide="check-square" class="w-4 h-4 text-teal-400"></i>
                                     Ementa & Tópicos
                                 </h4>
-                                <p class="text-[11px] text-teal-400/80">Lista de tópicos para acompanhamento</p>
+                                <p class="text-[11px] text-teal-400/80">Acompanhamento conceitual</p>
                             </div>
                             <span id="ws-topics-count" class="text-xs bg-teal-500/10 text-teal-300 border border-teal-500/20 px-2 py-0.5 rounded-full font-semibold">0/0</span>
                         </div>
 
                         <!-- Lista de Tópicos -->
-                        <div id="ws-topics-list" class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                        <div id="ws-topics-list" class="space-y-2 max-h-52 overflow-y-auto pr-1">
                             <!-- Via JS -->
                         </div>
 
@@ -339,14 +397,14 @@
                         </form>
                     </div>
 
-                    <!-- COLUNA 2: NOTAS DE AVALIAÇÕES (P1 & P2) -->
+                    <!-- COLUNA 2: NOTAS DE AVALIAÇÕES -->
                     <div class="p-6 space-y-6 bg-slate-950/10">
                         <div class="space-y-0.5">
                             <h4 class="font-bold text-teal-200 flex items-center gap-2">
                                 <i data-lucide="award" class="w-4 h-4 text-pink-400"></i>
                                 Notas de Avaliações
                             </h4>
-                            <p class="text-[11px] text-teal-400/80">Controle das avaliações do semestre</p>
+                            <p class="text-[11px] text-teal-400/80">Controle das notas semestrais</p>
                         </div>
 
                         <!-- Formulário de Notas -->
@@ -369,28 +427,44 @@
                         </div>
                     </div>
 
-                    <!-- COLUNA 3: MATERIAIS DE APOIO -->
+                    <!-- COLUNA 3: ANOTAÇÕES RÁPIDAS (NOVO) -->
+                    <div class="p-6 space-y-4 bg-slate-950/20">
+                        <div class="space-y-0.5 flex justify-between items-start">
+                            <div>
+                                <h4 class="font-bold text-teal-200 flex items-center gap-2">
+                                    <i data-lucide="notebook-pen" class="w-4 h-4 text-cyan-400"></i>
+                                    Anotações Rápidas
+                                </h4>
+                                <p class="text-[11px] text-teal-400/80">Lembretes e rascunhos salvos na hora</p>
+                            </div>
+                            <span id="notes-save-indicator" class="text-[9px] text-teal-400 bg-teal-950/60 px-2 py-0.5 rounded-md border border-teal-900/50 opacity-0 transition-opacity duration-300">✓ Salvo</span>
+                        </div>
+                        <textarea id="ws-notes" oninput="saveQuickNotes()" placeholder="Digite anotações rápidas e lembretes aqui... Elas se salvam automaticamente ao digitar!" 
+                                  class="w-full h-44 bg-slate-950/80 border border-teal-900 rounded-xl p-3 text-xs text-teal-100 placeholder-teal-850 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 resize-none"></textarea>
+                    </div>
+
+                    <!-- COLUNA 4: MATERIAIS DE APOIO -->
                     <div class="p-6 space-y-6">
                         <div class="space-y-0.5">
                             <h4 class="font-bold text-teal-200 flex items-center gap-2">
                                 <i data-lucide="package" class="w-4 h-4 text-cyan-400"></i>
                                 Materiais de Apoio
                             </h4>
-                            <p class="text-[11px] text-teal-400/80">Arquivos, links externos e apostilas</p>
+                            <p class="text-[11px] text-teal-400/80">Links externos, slides e apostilas</p>
                         </div>
 
                         <!-- Lista de Materiais -->
-                        <div id="ws-materials-list" class="space-y-2 max-h-52 overflow-y-auto pr-1">
+                        <div id="ws-materials-list" class="space-y-2 max-h-32 overflow-y-auto pr-1">
                             <!-- Via JS -->
                         </div>
 
                         <form onsubmit="addWorkspaceMaterial(event)" class="space-y-2">
                             <input type="text" id="new-material-title" required placeholder="Título do material..." 
-                                   class="w-full bg-slate-950/80 border border-teal-900 rounded-xl px-3 py-2 text-xs text-teal-100 placeholder-teal-850 focus:outline-none focus:border-teal-400">
+                                   class="w-full bg-slate-950/80 border border-teal-900 rounded-xl px-3 py-1.5 text-xs text-teal-100 placeholder-teal-850 focus:outline-none focus:border-teal-400">
                             <div class="flex gap-2">
                                 <input type="url" id="new-material-url" required placeholder="https://..." 
-                                       class="flex-1 bg-slate-950/80 border border-teal-900 rounded-xl px-3 py-2 text-xs text-teal-100 placeholder-teal-850 focus:outline-none focus:border-teal-400">
-                                <button type="submit" class="bg-teal-600/20 text-teal-300 border border-teal-600/40 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-teal-650/30 transition-all flex items-center gap-1 shrink-0">
+                                       class="flex-1 bg-slate-950/80 border border-teal-900 rounded-xl px-3 py-1.5 text-xs text-teal-100 placeholder-teal-850 focus:outline-none focus:border-teal-400">
+                                <button type="submit" class="bg-teal-600/20 text-teal-300 border border-teal-600/40 px-3 py-1.5 rounded-xl text-xs font-semibold hover:bg-teal-650/30 transition-all flex items-center gap-1 shrink-0">
                                     <i data-lucide="anchor" class="w-3.5 h-3.5"></i>
                                     Guardar
                                 </button>
@@ -568,6 +642,12 @@
         let selectedCalendarDate = null;
         let eventsList = [];
 
+        // Estado do Pomodoro
+        let pomodoroTimer = null;
+        let pomodoroTimeLeft = 25 * 60; // 25 Minutos padrão
+        let pomodoroIsRunning = false;
+        let pomodoroMode = 'focus'; // 'focus' ou 'break'
+
         // Inicialização
         window.onload = function() {
             loadLocalDatabase();
@@ -576,6 +656,7 @@
             renderCalendar();
             renderPerformanceTable();
             initBubbles();
+            updatePomodoroDisplay();
             lucide.createIcons();
         };
 
@@ -595,7 +676,35 @@
                 osc.start();
                 osc.stop(ctx.currentTime + 0.12);
             } catch (e) {
-                console.log("Audio API não disponível ou aguardando interação do usuário.");
+                console.log("Audio API não disponível ou aguardando interação.");
+            }
+        }
+
+        // Sintetizador de som de água/ondas para fim de ciclo do Pomodoro
+        function playWaterSplashSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Criando um efeito de bolha profunda e respingo
+                for (let i = 0; i < 5; i++) {
+                    const delay = i * 0.12;
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(100 + (Math.random() * 200), ctx.currentTime + delay);
+                    osc.frequency.exponentialRampToValueAtTime(800 + (Math.random() * 400), ctx.currentTime + delay + 0.25);
+                    
+                    gain.gain.setValueAtTime(0.15, ctx.currentTime + delay);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + delay + 0.25);
+                    
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + delay);
+                    osc.stop(ctx.currentTime + delay + 0.25);
+                }
+            } catch (e) {
+                console.log("Audio API falhou.");
             }
         }
 
@@ -629,7 +738,8 @@
                             { id: 4, text: "Estudo para Avaliação P2", completed: false }
                         ],
                         grades: { p1: "", p2: "" },
-                        materials: []
+                        materials: [],
+                        notes: ""
                     };
                 });
             });
@@ -803,6 +913,9 @@
             document.getElementById('grade-p2').value = data.grades.p2 || "";
             updateWorkspaceAverage(data.grades);
 
+            // Anotações Rápidas por Matéria
+            document.getElementById('ws-notes').value = data.notes || "";
+
             renderWorkspaceTopics();
             renderWorkspaceMaterials();
 
@@ -811,9 +924,21 @@
             workspace.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function closeWorkspace() {
-            document.getElementById('subject-workspace').classList.add('hidden');
-            selectedSubject = null;
+        // Salvamento automático de anotações com sinalizador visual
+        function saveQuickNotes() {
+            if (!selectedSubject) return;
+            const key = getSubjectKey(currentSemester, selectedSubject.name);
+            const notesVal = document.getElementById('ws-notes').value;
+            
+            userDatabase[key].notes = notesVal;
+            saveDatabase();
+
+            // Mostra o feedback visual de autosave
+            const indicator = document.getElementById('notes-save-indicator');
+            indicator.style.opacity = "1";
+            setTimeout(() => {
+                indicator.style.opacity = "0";
+            }, 800);
         }
 
         // Tópicos da Disciplina
@@ -934,7 +1059,7 @@
                 const card = document.createElement('div');
                 card.className = "flex items-center justify-between p-2 rounded-xl bg-slate-900 border border-teal-900/40 text-teal-100";
                 card.innerHTML = `
-                    <a href="${m.url}" target="_blank" class="flex items-center gap-2 text-xs text-teal-300 hover:text-cyan-300 transition-colors truncate max-w-[200px]">
+                    <a href="${m.url}" target="_blank" class="flex items-center gap-2 text-xs text-teal-300 hover:text-cyan-300 transition-colors truncate max-w-[140px]">
                         <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                         <span class="truncate">${m.title}</span>
                     </a>
@@ -1176,6 +1301,101 @@
             showToast("Evento acadêmico salvo!", "calendar");
         }
 
+        // LÓGICA DO POMODORO BIOLUMINESCENTE
+        function updatePomodoroDisplay() {
+            const minutes = Math.floor(pomodoroTimeLeft / 60);
+            const seconds = pomodoroTimeLeft % 60;
+            document.getElementById('pomodoro-time').innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            // Atualiza anel circular de progresso (Dashoffset de 502.4 como circunferência completa para r=80)
+            const totalDuration = pomodoroMode === 'focus' ? 25 * 60 : 5 * 60;
+            const progress = (pomodoroTimeLeft / totalDuration);
+            const strokeDashoffset = 502.4 * (1 - progress);
+            document.getElementById('pomodoro-progress-circle').setAttribute('stroke-dashoffset', strokeDashoffset);
+        }
+
+        function togglePomodoro() {
+            playBubbleSound();
+            const playBtn = document.getElementById('pomodoro-play-btn');
+            
+            if (pomodoroIsRunning) {
+                // Pause
+                clearInterval(pomodoroTimer);
+                pomodoroIsRunning = false;
+                playBtn.innerHTML = `<i data-lucide="play" class="w-4 h-4"></i> Continuar`;
+            } else {
+                // Start
+                pomodoroIsRunning = true;
+                playBtn.innerHTML = `<i data-lucide="pause" class="w-4 h-4"></i> Pausar`;
+                
+                pomodoroTimer = setInterval(() => {
+                    if (pomodoroTimeLeft > 0) {
+                        pomodoroTimeLeft--;
+                        updatePomodoroDisplay();
+                    } else {
+                        // Fim do tempo do Pomodoro
+                        clearInterval(pomodoroTimer);
+                        pomodoroIsRunning = false;
+                        playWaterSplashSound(); // Som de splash ao finalizar
+                        
+                        if (pomodoroMode === 'focus') {
+                            showToast("Ciclo de estudo completo! Hora de relaxar.", "sparkles");
+                            switchPomodoroMode('break');
+                        } else {
+                            showToast("Descanso finalizado! Hora de voltar ao foco.", "compass");
+                            switchPomodoroMode('focus');
+                        }
+                    }
+                }, 1000);
+            }
+            lucide.createIcons();
+        }
+
+        function resetPomodoro() {
+            playBubbleSound();
+            clearInterval(pomodoroTimer);
+            pomodoroIsRunning = false;
+            pomodoroTimeLeft = pomodoroMode === 'focus' ? 25 * 60 : 5 * 60;
+            
+            const playBtn = document.getElementById('pomodoro-play-btn');
+            playBtn.innerHTML = `<i data-lucide="play" class="w-4 h-4"></i> Iniciar`;
+            updatePomodoroDisplay();
+            lucide.createIcons();
+        }
+
+        function switchPomodoroMode(mode) {
+            playBubbleSound();
+            pomodoroMode = mode;
+            clearInterval(pomodoroTimer);
+            pomodoroIsRunning = false;
+            
+            const badge = document.getElementById('pomodoro-mode-badge');
+            const focusBtn = document.getElementById('pomodoro-mode-focus');
+            const breakBtn = document.getElementById('pomodoro-mode-break');
+            const playBtn = document.getElementById('pomodoro-play-btn');
+            
+            playBtn.innerHTML = `<i data-lucide="play" class="w-4 h-4"></i> Iniciar`;
+
+            if (mode === 'focus') {
+                pomodoroTimeLeft = 25 * 60;
+                badge.innerText = "Foco";
+                badge.className = "text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30";
+                
+                focusBtn.className = "py-1.5 rounded-lg border border-teal-500 bg-teal-500/10 text-teal-300 font-semibold transition-colors";
+                breakBtn.className = "py-1.5 rounded-lg border border-transparent hover:border-teal-900 text-teal-500 transition-colors";
+            } else {
+                pomodoroTimeLeft = 5 * 60;
+                badge.innerText = "Pausa";
+                badge.className = "text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30";
+                
+                breakBtn.className = "py-1.5 rounded-lg border border-pink-500 bg-pink-500/10 text-pink-300 font-semibold transition-colors";
+                focusBtn.className = "py-1.5 rounded-lg border border-transparent hover:border-teal-900 text-teal-500 transition-colors";
+            }
+            
+            updatePomodoroDisplay();
+            lucide.createIcons();
+        }
+
         // Quadro de Desempenho
         function renderPerformanceTable() {
             const body = document.getElementById('performance-table-body');
@@ -1276,6 +1496,11 @@
                 }
             };
             reader.readAsText(file);
+        }
+
+        function closeWorkspace() {
+            document.getElementById('subject-workspace').classList.add('hidden');
+            selectedSubject = null;
         }
 
         // Toasts
